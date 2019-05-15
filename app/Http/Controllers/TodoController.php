@@ -14,12 +14,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $request_api = true;
-        if($request_api) {
-            return 'api response';
-        } else {
-            return 'not api response';
-        }
+        return view('todo.index');
     }
 
     /**
