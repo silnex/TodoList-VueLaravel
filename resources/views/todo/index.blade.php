@@ -9,12 +9,13 @@
                     Todos
                 </div>
                 <ul class="list-group">
-                @foreach ($todoDays as $todoDay)
-                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    @foreach ($todoDays as $todoDay)
+                    <a href="#"
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                         {{ $todoDay->day }}
                         <span class="badge badge-primary badge-pill">{{ $todoDay->todo_count }}</span>
                     </a>
-                @endforeach
+                    @endforeach
                 </ul>
             </div>
         </div>
