@@ -14,7 +14,10 @@ class TodoController extends Controller
      */
     public function index()
     {
-        return view('todo.index');
+        $todoDays = Todo::select(\DB::Raw('DATE(created_at) as day'))
+            ->where('user_id', 1)
+            ->groupBy('day')->get();
+        return view('todo.index', ['todoDays'=>$todoDays]);
     }
 
     /**
