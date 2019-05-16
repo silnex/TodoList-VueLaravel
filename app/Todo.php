@@ -11,4 +11,8 @@ class Todo extends Model
     protected $casts = [
         'check' => 'boolean'
     ];
+
+    function user() {
+        return $this->belongsTo('App\User');
+    }
 }

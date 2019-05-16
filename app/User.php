@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Todo 외래키 접근
+     * 
+     */
+    function todos() {
+        return $this->hasMany('App\Todo');
+    }
 }
