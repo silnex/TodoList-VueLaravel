@@ -26,7 +26,7 @@ $factory->define(User::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(User::class, 'silnex', function (Facker $facker) {
+$factory->state(User::class, 'silnex', function (Faker $facker) {
     return [
         'name' => 'silnex',
         'email' => 'silnex@silnex.kr',
