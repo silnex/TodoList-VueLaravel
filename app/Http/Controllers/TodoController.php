@@ -45,6 +45,17 @@ class TodoController extends Controller
     }
 
     /**
+     * Display the specified resource group by date
+     * 
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function groupByDate(Request $request)
+    {
+        dd($request);
+    }
+    
+    /**
      * Display the specified resource.
      *
      * @param  \App\Todo  $todo
