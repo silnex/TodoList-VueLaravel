@@ -14,12 +14,13 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $request_api = true;
-        if($request_api) {
-            return 'api response';
-        } else {
-            return 'not api response';
-        }
+        $todoDays = Todo::select([
+            \DB::Raw('DATE(created_at) as day'),
+            \DB::Raw('COUNT(created_at) as todo_count'),
+        ])->where('user_id', 1)
+            ->groupBy('day')
+            ->get();
+        return view('todo.index', ['todoDays' => $todoDays]);
     }
 
     /**
@@ -43,6 +44,17 @@ class TodoController extends Controller
         //
     }
 
+    /**
+     * Display the specified resource group by date
+     * 
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function groupByDate(Request $request)
+    {
+        dd($request);
+    }
+    
     /**
      * Display the specified resource.
      *
