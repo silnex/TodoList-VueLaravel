@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Todo;
 use Illuminate\Http\Request;
+use App\User;
 
 class TodoController extends Controller
 {
@@ -14,10 +15,13 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todoDays = Todo::select([
-            \DB::Raw('DATE(created_at) as day'),
-            \DB::Raw('COUNT(created_at) as todo_count'),
-        ])->where('user_id', 1)
+        $todoDays = User::find(1)
+            ->first()
+            ->todos()
+            ->select([
+                \DB::Raw('DATE(created_at) as day'),
+                \DB::Raw('COUNT(created_at) as todo_count'),
+            ])
             ->groupBy('day')
             ->get();
         return view('todo.index', ['todoDays' => $todoDays]);
@@ -50,11 +54,19 @@ class TodoController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function groupByDate(Request $request)
+    public function groupByDate(String $date)
     {
-        dd($request);
+        $todos = User::find(1)
+            ->first()
+            ->todos()
+            ->get();
+
+        return view('todo.view', [
+            'date' => $date,
+            'todos' => $todos
+        ]);
     }
-    
+
     /**
      * Display the specified resource.
      *
