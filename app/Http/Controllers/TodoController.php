@@ -108,7 +108,7 @@ class TodoController extends Controller
 
         $todo->save();
 
-        return redirect()->route('todo.index', $todo->id);
+        // return redirect()->route('todo.index', $todo->id);
     }
 
     /**
