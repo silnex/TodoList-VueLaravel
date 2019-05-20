@@ -123,6 +123,9 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        //
+        // if ($todo->authorChceck(auth()->id)) {
+        //     abort(403);
+        // }
+        
     }
 }
