@@ -104,11 +104,14 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
+        // if ($todo->authorChceck(auth()->id)) {
+        //     abort(403);
+        // }
         [$todo->title, $todo->description] = [$request->title, $request->description];
 
         $todo->save();
 
-        // return redirect()->route('todo.index', $todo->id);
+        return redirect()->route('todo.index', $todo->id);
     }
 
     /**

@@ -15,4 +15,19 @@ class Todo extends Model
     function user() {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Check writter id and user id
+     * 
+     * @param integer
+     * @return boolean
+     */
+    public function authorCheck(?int $id): bool
+    {
+        if($this->user()->id === $id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
