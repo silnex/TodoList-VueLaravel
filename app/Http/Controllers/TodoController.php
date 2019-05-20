@@ -50,7 +50,7 @@ class TodoController extends Controller
 
     /**
      * Display the specified resource group by date
-     * 
+     *
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -61,7 +61,7 @@ class TodoController extends Controller
             ->todos()
             ->get();
 
-        return view('todo.view', [
+        return view('todo.list', [
             'date' => $date,
             'todos' => $todos
         ]);
@@ -75,7 +75,10 @@ class TodoController extends Controller
      */
     public function show(Todo $todo)
     {
-        //
+        return view('todo.view', [
+            'date' => $todo->created_at->format('Y-m-d'),
+            'todo' => $todo,
+        ]);
     }
 
     /**

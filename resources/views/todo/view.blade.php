@@ -6,31 +6,30 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    {{ $date }} Todos
+                    {{ $date }} - Todo
                 </div>
-                <ul class="list-group">
-                    @foreach ($todos as $todo)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div
-                            class="custom-control custom-checkbox flex-fill d-flex justify-content-between align-items-center">
-                            <input type="checkbox" class="custom-control-input" id="todoCheck-{{$todo->id}}">
-                            <label class="custom-control-label"
-                                for="todoCheck-{{$todo->id}}">{{$todo->title}}</label>
-                            <input type="hidden" class="input-group-text w-50 mr-3" value="{{$todo->title}}">
-                        </div>
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-danger">삭제</a>
-                            <a href="#" class="btn btn-primary">수정</a>
-                        </div>
-                    </li>
-                    @endforeach
-                </ul>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ $todo->title }}
+                    </h5>
+                    <hr>
+                    <p class="card-text">
+                        {{ $todo->description }}
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="btn-group float-right m-2">
-        <a href="#" class="btn btn-primary">목록으로</a>
+    <div class="d-flex justify-content-between mt-1">
+        <div class="btn-group float-left">
+            <a href="#" class="btn btn-success">할일완료</a>
+        </div>
+        <div class="btn-group float-right">
+            <a href="{{ route('todo.destroy', $todo->id) }}" class="btn btn-danger">삭제</a>
+            <a href="{{ route('todo.edit', $todo->id) }}" class="btn btn-secondary">수정</a>
+            <a href="{{ route('todo.groupByDate', $date) }}" class="btn btn-primary">목록으로</a>
+        </div>
     </div>
 </div>
 @endsection
