@@ -89,7 +89,10 @@ class TodoController extends Controller
      */
     public function edit(Todo $todo)
     {
-        //
+        return view('todo.edit', [
+            'date' => $todo->created_at->format('Y-m-d'),
+            'todo' => $todo,
+        ]);
     }
 
     /**
@@ -101,7 +104,11 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        //
+        [$todo->title, $todo->description] = [$request->title, $request->description];
+
+        $todo->save();
+
+        return redirect()->route('todo.index', $todo->id);
     }
 
     /**
