@@ -23,6 +23,7 @@ class TodoController extends Controller
                 \DB::Raw('COUNT(created_at) as todo_count'),
             ])
             ->groupBy('day')
+            ->orderBy('id', 'desc')
             ->get();
         return view('todo.index', ['todoDays' => $todoDays]);
     }
@@ -34,7 +35,9 @@ class TodoController extends Controller
      */
     public function create()
     {
-        //
+        return view('todo.create',[
+            'date' => now()->format('Y-m-d'),
+        ]);
     }
 
     /**
@@ -45,7 +48,14 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Todo::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'user_id' => 1
+        ]);
+
+        return redirect()
+            ->route('todo.index');
     }
 
     /**
@@ -59,6 +69,7 @@ class TodoController extends Controller
         $todos = User::find(1)
             ->first()
             ->todos()
+            ->whereDate('created_at', $date)
             ->get();
 
         return view('todo.list', [

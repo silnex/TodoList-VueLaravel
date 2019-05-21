@@ -33,6 +33,7 @@
     </div>
 
     <div class="btn-group float-right m-2">
+        <a href="{{ route('todo.create') }}" class="btn btn-success">새로만들기</a>
         <a href="{{ route('todo.index') }}" class="btn btn-primary">모든 날짜</a>
     </div>
 </div>

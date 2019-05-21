@@ -4,14 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <form action="{{ route('todo.update', $todo->id) }}" method="POST">
-                @method('PUT')
+            <form action="{{ route('todo.store') }}" method="POST">
                 <div class="card">
                     <div class="card-header">
                         {{ $date }} - Todo
                     </div>
-                    @component('components.editor', ['todo' => $todo])
-                    edit
+                    @component('components.editor', ['todo' => null])
+                    create
                     @endcomponent
                 </div>
             </form>
@@ -22,8 +21,7 @@
             <a href="{{ route('todo.list', $date) }}" class="btn btn-primary">목록으로</a>
         </div>
         <div class="btn-group float-right">
-            <a href="{{ route('todo.destroy', $todo->id) }}" class="btn btn-danger">삭제</a>
-            <a href="javascript:$('form').submit()" class="btn btn-success">업데이트</a>
+            <a href="javascript:$('form').submit()" class="btn btn-success">생성완료</a>
         </div>
     </div>
 </div>
