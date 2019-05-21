@@ -22,7 +22,7 @@
                             </p>
                         </div>
                         <div class="btn-group">
-                            <a href="{{ route('todo.destroy', $todo->id) }}" class="btn btn-danger">삭제</a>
+                            <a href="{{ route('todo.destroy', $todo->id) }}" onclick="remove(this)" class="btn btn-danger remove">삭제</a>
                             <a href="{{ route('todo.edit', $todo->id) }}" class="btn btn-secondary">수정</a>
                         </div>
                     </li>

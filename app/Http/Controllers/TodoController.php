@@ -55,7 +55,7 @@ class TodoController extends Controller
         ]);
 
         return redirect()
-            ->route('todo.index');
+            ->route('todo.list', now()->format('Y-m-d'));
     }
 
     /**
@@ -138,5 +138,7 @@ class TodoController extends Controller
         //     abort(403);
         // }
 
+        $todo->delete();
+        return ['state' => 'ok'];
     }
 }
