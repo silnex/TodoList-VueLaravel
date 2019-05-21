@@ -10,7 +10,7 @@
                 </div>
                 <ul class="list-group">
                     @foreach ($todoDays as $todoDay)
-                    <a href="{{ route('todo.groupByDate', $todoDay->day) }}"
+                    <a href="{{ route('todo.list', $todoDay->day) }}"
                         class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                         {{ $todoDay->day }}
                         <span class="badge badge-primary badge-pill">{{ $todoDay->todo_count }}</span>

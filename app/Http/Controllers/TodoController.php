@@ -54,7 +54,7 @@ class TodoController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function groupByDate(String $date)
+    public function list(String $date)
     {
         $todos = User::find(1)
             ->first()
@@ -126,6 +126,6 @@ class TodoController extends Controller
         // if ($todo->authorChceck(auth()->id)) {
         //     abort(403);
         // }
-        
+
     }
 }

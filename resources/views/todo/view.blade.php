@@ -28,7 +28,7 @@
         <div class="btn-group float-right">
             <a href="{{ route('todo.destroy', $todo->id) }}" class="btn btn-danger">삭제</a>
             <a href="{{ route('todo.edit', $todo->id) }}" class="btn btn-secondary">수정</a>
-            <a href="{{ route('todo.groupByDate', $date) }}" class="btn btn-primary">목록으로</a>
+            <a href="{{ route('todo.list', $date) }}" class="btn btn-primary">목록으로</a>
         </div>
     </div>
 </div>
