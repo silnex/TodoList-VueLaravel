@@ -94,6 +94,17 @@
                 }
             })
         }
+        function checkTodo(todo) {
+            $.ajax({
+                type: 'PUT',
+                url: $(todo).data('href')
+            })
+            .done((response) => {
+                if(response.state === 'ok') {
+                    location.reload()
+                }
+            })
+        }
     </script>
 </body>
 

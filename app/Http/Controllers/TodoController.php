@@ -5,9 +5,28 @@ namespace App\Http\Controllers;
 use App\Todo;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class TodoController extends Controller
 {
+    /**
+     * construct todo controller
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if ($request->todo->authorCheck(Auth::user()->id)) {
+                return $next($request);
+            } else {
+                abort(404);
+            }
+        })->only(['edit', 'update', 'destory', 'check']);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +34,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todoDays = User::find(1)
-            ->first()
+        $todoDays = Auth::user()
             ->todos()
             ->select([
                 \DB::Raw('DATE(created_at) as day'),
@@ -35,7 +53,7 @@ class TodoController extends Controller
      */
     public function create()
     {
-        return view('todo.create',[
+        return view('todo.create', [
             'date' => now()->format('Y-m-d'),
         ]);
     }
@@ -51,7 +69,7 @@ class TodoController extends Controller
         Todo::create([
             'title' => $request->title,
             'description' => $request->description,
-            'user_id' => 1
+            'user_id' => Auth::user()->id
         ]);
 
         return redirect()
@@ -66,8 +84,7 @@ class TodoController extends Controller
      */
     public function list(String $date)
     {
-        $todos = User::find(1)
-            ->first()
+        $todos = Auth::user()
             ->todos()
             ->whereDate('created_at', $date)
             ->get();
@@ -115,15 +132,29 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        // if ($todo->authorChceck(auth()->id)) {
-        //     abort(403);
-        // }
         [$todo->title, $todo->description] = [$request->title, $request->description];
 
         $todo->save();
 
         return redirect()
             ->route('todo.show', $todo->id);
+    }
+
+    /**
+     * Update todo done status
+     *
+     * @param \App\Todo $todo
+     * @return \Illuminate\Http\Response
+     */
+    public function check(Todo $todo)
+    {
+        // if ($todo->authorChceck(auth()->id)) {
+        //     abort(403);
+        // }
+        $todo->check = !$todo->check;
+        $todo->save();
+
+        return ['state' => 'ok'];
     }
 
     /**

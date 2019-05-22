@@ -12,7 +12,9 @@
                     @foreach ($todos as $todo)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div class="custom-control custom-checkbox flex-fill">
-                            <input type="checkbox" class="custom-control-input" id="todoCheck-{{$todo->id}}">
+                            <input type="checkbox" class="custom-control-input" id="todoCheck-{{$todo->id}}"
+                                data-href="{{ route('todo.check', $todo->id) }}" onclick="checkTodo(this)"
+                                {{ ($todo->check) ? ' checked' : '' }}>
                             <label class="custom-control-label" for="todoCheck-{{$todo->id}}">{{$todo->title}}</label>
                             <input type="hidden" class="input-group-text w-50 mr-3" value="{{$todo->title}}">
                             <p class="text-muted mt-1 text-monospace">
@@ -22,7 +24,8 @@
                             </p>
                         </div>
                         <div class="btn-group">
-                            <a href="{{ route('todo.destroy', $todo->id) }}" onclick="remove(this)" class="btn btn-danger remove">삭제</a>
+                            <a href="{{ route('todo.destroy', $todo->id) }}" onclick="remove(this)"
+                                class="btn btn-danger remove">삭제</a>
                             <a href="{{ route('todo.edit', $todo->id) }}" class="btn btn-secondary">수정</a>
                         </div>
                     </li>

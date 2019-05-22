@@ -23,7 +23,7 @@
 
     <div class="d-flex justify-content-between mt-1">
         <div class="btn-group float-left">
-            <a href="#" class="btn btn-success">할일완료</a>
+            <button onclick="checkTodo(this)" data-href="{{ route('todo.check', $todo->id) }}" class="btn btn-{{ ($todo->check) ? 'secondary' : 'success' }} checkBtn">할일완료</button>
         </div>
         <div class="btn-group float-right">
             <a href="{{ route('todo.destroy', $todo->id) }}" class="btn btn-danger">삭제</a>
