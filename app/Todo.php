@@ -12,19 +12,24 @@ class Todo extends Model
         'check' => 'boolean'
     ];
 
+    /**
+     * Eloquent relations belong to User
+     *
+     * @return App\User
+     */
     function user() {
         return $this->belongsTo('App\User');
     }
 
     /**
      * Check writter id and user id
-     * 
+     *
      * @param integer
      * @return boolean
      */
     public function authorCheck(?int $id): bool
     {
-        if($this->user()->id === $id) {
+        if($this->user->id === $id) {
             return true;
         } else {
             return false;

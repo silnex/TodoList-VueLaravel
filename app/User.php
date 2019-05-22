@@ -38,8 +38,8 @@ class User extends Authenticatable
     ];
 
     /**
-     * Todo 외래키 접근
-     * 
+     * Todo relation
+     *
      */
     function todos() {
         return $this->hasMany('App\Todo');
