@@ -21,9 +21,9 @@ class TodoController extends Controller
             if ($request->todo->authorCheck(Auth::user()->id)) {
                 return $next($request);
             } else {
-                abort(404);
+                abort(403);
             }
-        })->only(['edit', 'update', 'destory', 'check']);
+        })->only(['edit', 'update', 'destory', 'check', 'show']);
     }
 
 

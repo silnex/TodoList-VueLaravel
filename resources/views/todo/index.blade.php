@@ -18,6 +18,10 @@
                     @endforeach
                 </ul>
             </div>
+
+            <div class="btn-group float-right m-2">
+                <a href="{{ route('todo.create') }}" class="btn btn-success">새로만들기</a>
+            </div>
         </div>
     </div>
 </div>
