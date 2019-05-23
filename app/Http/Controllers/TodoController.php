@@ -6,6 +6,7 @@ use App\Todo;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\Paginator;
 
 class TodoController extends Controller
 {
@@ -42,9 +43,18 @@ class TodoController extends Controller
             ])
             ->groupBy('day')
             ->orderBy('id', 'desc')
-            // ->paginate(2)
             ->get();
-        return view('todo.index', ['todoDays' => $todoDays]);
+        $page = request()->page;
+        $todoDaysPage = new Paginator(
+            $todoDays,
+            2,
+            $page,
+            [
+                'path' => Paginator::resolveCurrentPath()
+            ]
+        );
+        dd($todoDaysPage);
+        return view('todo.index', ['todoDays' => $todoDaysPage]);
     }
 
     /**
