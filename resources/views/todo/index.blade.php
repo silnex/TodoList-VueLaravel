@@ -18,9 +18,14 @@
                     @endforeach
                 </ul>
             </div>
+            <div class="d-flex justify-content-between m-2 align-items-center">
+                <div></div>
+                @component('components.pagination', ['paginate' => $todoDays])
+                @endcomponent
 
-            <div class="btn-group float-right m-2">
-                <a href="{{ route('todo.create') }}" class="btn btn-success">새로만들기</a>
+                <div class="btn-group float-right m-2">
+                    <a href="{{ route('todo.create') }}" class="btn btn-success">새로만들기</a>
+                </div>
             </div>
         </div>
     </div>
