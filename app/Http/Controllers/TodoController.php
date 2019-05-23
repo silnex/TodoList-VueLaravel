@@ -42,6 +42,7 @@ class TodoController extends Controller
             ])
             ->groupBy('day')
             ->orderBy('id', 'desc')
+            // ->paginate(2)
             ->get();
         return view('todo.index', ['todoDays' => $todoDays]);
     }
@@ -87,7 +88,7 @@ class TodoController extends Controller
         $todos = Auth::user()
             ->todos()
             ->whereDate('created_at', $date)
-            ->get();
+            ->paginate(3);
 
         return view('todo.list', [
             'date' => $date,
