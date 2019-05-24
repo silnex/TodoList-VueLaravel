@@ -45,7 +45,8 @@ class TodoController extends Controller
             ])
             ->groupBy('day')
             ->orderBy('id', 'desc')
-            ->get()->slice(($page - 1) * $perPage, $perPage, $perPage)->all();
+            ->get()
+            ->slice(($page - 1) * $perPage, $perPage, $perPage);
 
         $todoDays = new Paginator(
             $todoItems,
