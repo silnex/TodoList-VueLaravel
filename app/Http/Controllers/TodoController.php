@@ -35,7 +35,9 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todoDays = Auth::user()
+        $page = request()->page;
+        $perPage = 2;
+        $todoItems = Auth::user()
             ->todos()
             ->select([
                 \DB::Raw('DATE(created_at) as day'),
@@ -43,18 +45,15 @@ class TodoController extends Controller
             ])
             ->groupBy('day')
             ->orderBy('id', 'desc')
-            ->get();
-        $page = request()->page;
-        $todoDaysPage = new Paginator(
-            $todoDays,
-            2,
-            $page,
-            [
-                'path' => Paginator::resolveCurrentPath()
-            ]
+            ->get()->slice(($page - 1) * $perPage, $perPage, $perPage)->all();
+
+        $todoDays = new Paginator(
+            $todoItems,
+            $perPage,
+            null,
+            ['path' => request()->url(), 'query' => request()->query()]
         );
-        dd($todoDaysPage);
-        return view('todo.index', ['todoDays' => $todoDaysPage]);
+        return view('todo.index', ['todoDays' => $todoDays]);
     }
 
     /**
