@@ -35,25 +35,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $page = request()->page;
-        $perPage = 2;
-        $todoItems = Auth::user()
-            ->todos()
-            ->select([
-                \DB::Raw('DATE(created_at) as day'),
-                \DB::Raw('COUNT(created_at) as todo_count'),
-            ])
-            ->groupBy('day')
-            ->orderBy('id', 'desc')
-            ->get()
-            ->slice(($page - 1) * $perPage, $perPage, $perPage);
-
-        $todoDays = new Paginator(
-            $todoItems,
-            $perPage,
-            null,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
+        $todoDays = Todo::getIndexPaginator(Auth::user(), 2, request()->page);
         return view('todo.index', ['todoDays' => $todoDays]);
     }
 
@@ -90,7 +72,7 @@ class TodoController extends Controller
     /**
      * Display the specified resource group by date
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param String  $date
      * @return \Illuminate\Http\Response
      */
     public function list(String $date)

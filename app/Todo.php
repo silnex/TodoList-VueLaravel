@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\Paginator;
 
 class Todo extends Model
 {
@@ -17,8 +18,39 @@ class Todo extends Model
      *
      * @return App\User
      */
-    function user() {
+    function user()
+    {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Get pagination group by date
+     *
+     * @param App\User $user
+     * @param integer $perPage
+     * @param integer $page
+     *
+     * @return Illuminate\Pagination\Paginator
+     */
+    static public function getIndexPaginator(User $user, int $perPage, ?int $page)
+    {
+        $todoPaginator = new Paginator(
+            $user
+                ->todos()
+                ->select([
+                    \DB::Raw('DATE(created_at) as day'),
+                    \DB::Raw('COUNT(created_at) as todo_count'),
+                ])
+                ->groupBy('day')
+                ->orderBy('id', 'desc')
+                ->get()
+                ->slice(($page - 1) * $perPage, $perPage, $perPage),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+
+        return $todoPaginator;
     }
 
     /**
@@ -29,7 +61,7 @@ class Todo extends Model
      */
     public function authorCheck(?int $id): bool
     {
-        if($this->user->id === $id) {
+        if ($this->user->id === $id) {
             return true;
         } else {
             return false;
