@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Todo;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Pagination\Paginator;
+use App\Http\Controllers\Controller;
 
 class TodoController extends Controller
 {
@@ -25,6 +25,8 @@ class TodoController extends Controller
                 abort(403);
             }
         })->only(['edit', 'update', 'destory', 'check', 'show']);
+
+        $this->perPage = 5;
     }
 
 
@@ -35,7 +37,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todoDays = Todo::getIndexPaginator(Auth::user(), 2, request()->page);
+        $todoDays = Todo::getIndexPaginator(Auth::user(), $this->perPage, request()->page);
         return view('todo.index', ['todoDays' => $todoDays]);
     }
 
