@@ -77,6 +77,7 @@ class TodoController extends Controller
      */
     public function list(String $date)
     {
+        // need refactory
         $todos = Auth::user()
             ->todos()
             ->whereDate('created_at', $date)
@@ -141,9 +142,6 @@ class TodoController extends Controller
      */
     public function check(Todo $todo)
     {
-        // if ($todo->authorChceck(auth()->id)) {
-        //     abort(403);
-        // }
         $todo->check = !$todo->check;
         $todo->save();
 
@@ -158,10 +156,6 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        // if ($todo->authorChceck(auth()->id)) {
-        //     abort(403);
-        // }
-
         $todo->delete();
         return ['state' => 'ok'];
     }
