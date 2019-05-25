@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Todo extends Model
 {
@@ -30,21 +30,25 @@ class Todo extends Model
      * @param integer $perPage
      * @param integer $page
      *
-     * @return Illuminate\Pagination\Paginator
+     * @return Illuminate\Pagination\LengthAwarePaginator
      */
     static public function getIndexPaginator(User $user, int $perPage, ?int $page)
     {
-        $todoPaginator = new Paginator(
-            $user
-                ->todos()
-                ->select([
-                    \DB::Raw('DATE(created_at) as day'),
-                    \DB::Raw('COUNT(created_at) as todo_count'),
-                ])
-                ->groupBy('day')
-                ->orderBy('id', 'desc')
-                ->get()
-                ->slice(($page - 1) * $perPage, $perPage, $perPage),
+        $items = $user
+            ->todos()
+            ->select([
+                \DB::Raw('DATE(created_at) as day'),
+                \DB::Raw('COUNT(created_at) as todo_count'),
+            ])
+            ->groupBy('day')
+            ->orderBy('id', 'desc')
+            ->get();
+
+
+        $todoPaginator = new LengthAwarePaginator(
+            $items
+                ->forPage($page, $perPage),
+            $items->count(),
             $perPage,
             $page,
             ['path' => request()->url(), 'query' => request()->query()]
