@@ -29,6 +29,14 @@ class TodoController extends Controller
         $this->perPage = 5;
     }
 
+    public function token(Request $request)
+    {
+        $token = Str::random(60);
+
+        $request->user()->forceFill([
+            'api_token' => hash('sha256', $token),
+        ])->save();
+    }
 
     /**
      * Display a listing of the resource.
