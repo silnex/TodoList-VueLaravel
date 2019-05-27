@@ -41,7 +41,8 @@ class User extends Authenticatable
      * Todo relation
      *
      */
-    function todos() {
+    function todos()
+    {
         return $this->hasMany('App\Todo');
     }
 }
