@@ -17,7 +17,6 @@ class TodoController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             if ($request->todo->authorCheck(Auth::user()->id)) {
                 return $next($request);
