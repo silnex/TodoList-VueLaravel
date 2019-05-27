@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,17 +14,25 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return Auth::guard('api')->user();
+});
+
+Auth::routes();
+
+Route::get('/', function (Request $request) {
+    return 'api test';
+});
+
+// Route::get('/login', function (Request $request) {
+//     $user = User::where('email', $request->email)->first();
+//     $user->api_token = str_random(60);
+//     $user->save();
+//     return $user->api_token;
 // });
 
-Route::get('/', function(Request $request){
-    dd($request->user());
-})->middleware('auth:api');
 
-Route::get('/set', function(Request $request){
-    dd($request->user());
-});
+
 
 Route::namespace('Api')->group(function () {
     Route::get('/todo/{date}', 'TodoController@list')
