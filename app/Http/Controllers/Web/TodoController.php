@@ -17,13 +17,7 @@ class TodoController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            if ($request->todo->authorCheck(Auth::user()->id)) {
-                return $next($request);
-            } else {
-                abort(403);
-            }
-        })->only(['edit', 'update', 'destory', 'check', 'show']);
+        $this->middleware('author.check')->only(['edit', 'update', 'destory', 'check', 'show']);
 
         $this->perPage = 5;
     }
