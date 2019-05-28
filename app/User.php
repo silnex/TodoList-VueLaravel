@@ -45,4 +45,18 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Todo');
     }
+
+        /**
+     * Get user todos with paginator
+     * 
+     * @param \App\User
+     * @return 
+     */
+    public function getTodoList(?String $date, ?int $perPage = 5)
+    {
+        $this
+            ->todos()
+            ->whereDate('created_at', $date)
+            ->paginate($perPage);
+    }
 }

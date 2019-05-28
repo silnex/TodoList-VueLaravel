@@ -18,7 +18,6 @@ class TodoController extends Controller
     public function __construct()
     {
         $this->middleware('author.check')->only(['edit', 'update', 'destory', 'check', 'show']);
-
         $this->perPage = 5;
     }
 
@@ -72,11 +71,7 @@ class TodoController extends Controller
      */
     public function list(String $date)
     {
-        // need refactory
-        $todos = Auth::user()
-            ->todos()
-            ->whereDate('created_at', $date)
-            ->paginate(3);
+        $todos = Auth::user()->getTodoList($date, $this->perPage);
 
         return view('todo.list', [
             'date' => $date,

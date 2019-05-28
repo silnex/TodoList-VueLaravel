@@ -17,24 +17,9 @@ class TodoController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            if ($request->todo->authorCheck(Auth::user()->id)) {
-                return $next($request);
-            } else {
-                abort(403);
-            }
-        })->only(['edit', 'update', 'destory', 'check', 'show']);
+        $this->middleware('author.check')->only(['edit', 'update', 'destory', 'check', 'show']);
 
         $this->perPage = 5;
-    }
-
-    public function token(Request $request)
-    {
-        $token = Str::random(60);
-
-        $request->user()->forceFill([
-            'api_token' => hash('sha256', $token),
-        ])->save();
     }
 
     /**
@@ -45,7 +30,7 @@ class TodoController extends Controller
     public function index()
     {
         $todoDays = Todo::getIndexPaginator(Auth::user(), $this->perPage, request()->page);
-        return $todoDays;
+        return response()->json($todoDays);
     }
 
     /**
@@ -62,8 +47,9 @@ class TodoController extends Controller
             'user_id' => Auth::user()->id
         ]);
 
-        return redirect()
-            ->route('todo.list', now()->format('Y-m-d'));
+        return response()->json([
+            'message' => __('todo.created')
+        ]);
     }
 
     /**
@@ -74,13 +60,9 @@ class TodoController extends Controller
      */
     public function list(String $date)
     {
-        // need refactory
-        $todos = Auth::user()
-            ->todos()
-            ->whereDate('created_at', $date)
-            ->paginate(3);
+        $todos = Auth::user()->getTodoList($date, $this->perPage);
 
-        return view('todo.list', [
+        return response()->json([
             'date' => $date,
             'todos' => $todos
         ]);
@@ -94,24 +76,10 @@ class TodoController extends Controller
      */
     public function show(Todo $todo)
     {
-        return [
+        return response()->json([
             'date' => $todo->created_at->format('Y-m-d'),
             'todo' => $todo,
-        ];
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Todo $todo)
-    {
-        return [
-            'date' => $todo->created_at->format('Y-m-d'),
-            'todo' => $todo,
-        ];
+        ]);
     }
 
     /**
@@ -127,8 +95,9 @@ class TodoController extends Controller
 
         $todo->save();
 
-        return redirect()
-            ->route('todo.show', $todo->id);
+        return response()->json([
+            'message' => __('todo.updated')
+        ]);
     }
 
     /**
@@ -142,7 +111,9 @@ class TodoController extends Controller
         $todo->check = !$todo->check;
         $todo->save();
 
-        return ['state' => 'ok'];
+        return response()->json([
+            'message' => __('todo.checked')
+        ]);
     }
 
     /**
@@ -154,6 +125,8 @@ class TodoController extends Controller
     public function destroy(Todo $todo)
     {
         $todo->delete();
-        return ['state' => 'ok'];
+        return response()->json([
+            'message' => __('todo.deleted')
+        ]);
     }
 }
