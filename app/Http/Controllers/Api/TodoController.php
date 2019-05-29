@@ -108,10 +108,11 @@ class TodoController extends Controller
     public function check(Todo $todo)
     {
         $todo->check = !$todo->check;
+        $state = ($todo->check ? '완료' : '미완료');
         $todo->save();
 
         return response()->json([
-            'message' => __('todo.checked')
+            'message' => __('todo.checked', ['state' => $state])
         ]);
     }
 
