@@ -32,7 +32,7 @@ class Todo extends Model
      *
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    static public function getIndexPaginator(User $user, int $perPage, ?int $page)
+    static public function getTodoIndex(User $user, int $perPage, ?int $page)
     {
         $items = $user
             ->todos()

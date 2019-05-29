@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Todo;
 use Illuminate\Http\Request;
-use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -29,7 +28,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todoDays = Todo::getIndexPaginator(Auth::user(), $this->perPage, request()->page);
+        $todoDays = Todo::getTodoIndex(Auth::user(), $this->perPage, request()->page);
         return response()->json($todoDays);
     }
 

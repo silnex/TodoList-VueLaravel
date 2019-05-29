@@ -15,16 +15,20 @@ use App\User;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return Auth::guard('api')->user();
+    return Auth::user();
 });
 
-Route::namespace('Api')->group(function () {
-    Route::get('/todo/{date}', 'TodoController@list')
-        ->where('date', '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$')
-        ->name('todo.list');
-    Route::put('/todo/{todo}/check', 'TodoController@check')
-        ->name('todo.check');
-    Route::get('/todo/token', 'TodoController@token')
-        ->name('todo.token');
-    Route::resource('/todo', 'TodoController');
+Route::get('/token', function (Request $request) {
+    return User::find($request->id)->api_token;
 });
+
+Route::namespace('Api')
+    ->middleware('auth:api')
+    ->group(function () {
+        Route::get('/todo/{date}', 'TodoController@list')
+            ->where('date', '^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$')
+            ->name('todo.list');
+        Route::put('/todo/{todo}/check', 'TodoController@check')
+            ->name('todo.check');
+        Route::resource('/todo', 'TodoController');
+    });

@@ -29,7 +29,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todoDays = Todo::getIndexPaginator(Auth::user(), $this->perPage, request()->page);
+        $todoDays = Todo::getTodoIndex(Auth::user(), $this->perPage, request()->page);
         return view('todo.index', ['todoDays' => $todoDays]);
     }
 
