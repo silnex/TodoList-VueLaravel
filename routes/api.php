@@ -14,12 +14,11 @@ use App\User;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return Auth::user();
-});
 
 Route::get('/token', function (Request $request) {
-    return User::find($request->id)->api_token;
+    return response()->json([
+        'token' => User::find($request->id)->api_token
+    ]);
 });
 
 Route::namespace('Api')
