@@ -16,7 +16,8 @@ module.exports = {
           "semi": false,
           "trailingComma": "none",
         }
-      ]
+      ],
+      "indent": ["error", 4]
     },
     parserOptions: {
       parser: "babel-eslint"
