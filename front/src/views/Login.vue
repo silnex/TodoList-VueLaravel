@@ -2,7 +2,7 @@
     <v-container fill-height style="max-width:450px">
         <v-layout align-center row wrap>
             <v-flex>
-                <v-form>
+                <v-form method="POST">
                     <v-card>
                         <v-toolbar flat>
                             <v-toolbar-title>Login</v-toolbar-title>
