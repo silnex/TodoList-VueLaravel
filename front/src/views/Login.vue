@@ -2,7 +2,7 @@
     <v-container fill-height style="max-width:450px">
         <v-layout align-center row wrap>
             <v-flex>
-                <v-form method="POST">
+                <v-form v-on:submit.prevent="onSubmit">
                     <v-card>
                         <v-toolbar flat>
                             <v-toolbar-title>Login</v-toolbar-title>
@@ -34,19 +34,28 @@
 </template>
 
 <script>
+import store from "../store"
 export default {
-    data: () => ({
-        valid: false,
-        email: "",
-        emailRules: [
-            v => !!v || "E-mail is required",
-            v => /.+@.+/.test(v) || "E-mail must be valid"
-        ],
-        password: "",
-        passwordRules: [
-            v => !!v || "password is required",
-            v => v.length >= 8 || "Password must be more than 8 characters"
-        ]
-    })
+    data() {
+        return {
+            valid: false,
+            email: "",
+            emailRules: [
+                v => !!v || "E-mail is required",
+                v => /.+@.+/.test(v) || "E-mail must be valid"
+            ],
+            password: "",
+            passwordRules: [
+                v => !!v || "password is required",
+                v => v.length >= 8 || "Password must be more than 8 characters"
+            ]
+        }
+    },
+    methods: {
+        onSubmit() {
+            console.log(store.commit("increment"))
+            console.log(store)
+        }
+    }
 }
 </script>
